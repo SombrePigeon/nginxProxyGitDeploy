@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+    nginx-proxy:
+        image: jwilder/nginx-proxy
+        ports:
+            - 80:80
+            - 443:443
+        networks:
+            - net-proxy
+        volumes:
+            - conf:/etc/nginx/conf.d
+            - vhost:/etc/nginx/vhost.d
+            - html:/usr/share/nginx/html
+            - dhparam:/etc/nginx/dhparam
+            - certs:/etc/nginx/certs:ro
+            - /var/run/docker.sock:/tmp/docker.sock:ro
+        #environment:
+            #VIRTUAL_PROTO: https
+            #ENABLE_IPV6: true
+        labels:
+            - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy"
+
+    letsencrypt:
+        image: jrcs/letsencrypt-nginx-proxy-companion
+        volumes:
+            - conf:/etc/nginx/conf.d
+            - vhost:/etc/nginx/vhost.d
+            - html:/usr/share/nginx/html
+            - dhparam:/etc/nginx/dhparam
+            - certs:/etc/nginx/certs:rw
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+        environment: 
+            DEFAULT_EMAIL: "contact@alexismartial.fr"
+        networks:
+            - net-proxy
+        depends_on:
+            - nginx-proxy
+
+    git-deploy:
+        build: "./gitRepo"
+        ports:
+            - "2222:22"
+        volumes:
+            - ./gitRepo/post-receive:post-receive
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+        depends_on:
+            - nginx-proxy
+
+volumes:
+    conf:
+    vhost:
+    html:
+    dhparam:
+    certs:
+
+networks:
+    net-proxy:
