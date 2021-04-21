@@ -4,11 +4,19 @@ MAINTAINER SombrePigeon "contact@alexismartial.fr"
 
 RUN apk update 
 
-#RUN les installaaatisonssgdrxgvchq<cdesjvhysfdq
+#ssh
+
+RUN apk add openssh
 
 WORKDIR /root
 
-RUN touch .ssh/authorized_keys
+RUN mkdir .ssh
+
+#git
+
+RUN apk add git
+
+RUN git config --global init.defaultBranch main
 
 RUN mkdir repo
 
@@ -16,11 +24,11 @@ WORKDIR repo
 
 RUN git init --bare
 
-
-
+#docker
 RUN apk add docker docker-compose
-
-RUN pwd
 
 #RUN git init --shared=true
 
+#start ssh server
+ENTRYPOINT ["/bin/sh", "-c"]
+CMD ["ssh-keygen -A && /usr/sbin/sshd -D"]
