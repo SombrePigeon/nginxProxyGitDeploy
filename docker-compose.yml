@@ -42,8 +42,9 @@ services:
         ports:
             - "2222:22"
         volumes:
-            - ./gitRepo/post-receive:post-receive
-            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - .ssh/:/root/.ssh/
+            - ./gitRepo/post-receive:/post-receive
+            - /var/run/docker.sock:/var/run/docker.sock:rw
         depends_on:
             - nginx-proxy
 
