@@ -37,14 +37,14 @@ services:
         depends_on:
             - nginx-proxy
 
-    git-deploy:
+    git:
         build: "./gitRepo"
         ports:
             - "2222:22"
         volumes:
-            - ./authorized_keys:/root/.ssh/authorized_keys:ro
-            - ./ssh_host_rsa_key.pub:/etc/ssh/ssh_host_rsa_key.pub:rw
-            - ./gitRepo/post-receive:/post-receive:ro
+            - ${PWD}/authorized_keys:/root/.ssh/authorized_keys:ro
+            - ${PWD}/ssh_host_rsa_key.pub:/etc/ssh/ssh_host_rsa_key.pub.share:rw
+            - ${PWD}/gitRepo/post-receive:/post-receive:ro
             - /var/run/docker.sock:/var/run/docker.sock:rw
         depends_on:
             - nginx-proxy

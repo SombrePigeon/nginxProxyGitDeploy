@@ -31,4 +31,6 @@ RUN apk add docker docker-compose
 
 #start ssh server
 ENTRYPOINT ["/bin/sh", "-c"]
-CMD ["ssh-keygen -A && /usr/sbin/sshd -D"]
+CMD ["ssh-keygen -A \
+&& cat /etc/ssh/ssh_host_rsa_key.pub > /etc/ssh/ssh_host_rsa_key.pub.share \
+&& /usr/sbin/sshd -D "]
