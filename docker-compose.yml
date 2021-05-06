@@ -38,22 +38,21 @@ services:
             - nginx-proxy
 
     git:
-        image: ghcr.io/linuxserver/openssh-server
-        container_name: openssh-server
+        build: ./gitRepo
         hostname: openssh-server #optional
         environment:
-            - PUID=1000
+            - PUID=1000 # create a git user on host is probably a good idea
             - PGID=1000
             - TZ=Europe/Paris
             - PUBLIC_KEY_FILE=/id_rsa.pub
             - SUDO_ACCESS=false #optional
             - PASSWORD_ACCESS=false #optional
-            - USER_PASSWORD=pass #optional
-            - USER_NAME=echo #optional
+            - USER_NAME=git #optional
+            #hostname ?
         volumes:
-        - ${HOME}/.ssh/id_rsa.pub:/id_rsa.pub:ro
+            - ${HOME}/.ssh/id_rsa.pub:/id_rsa.pub:ro #atttttention à changer le path !
         ports:
-        - 2222:2222
+            - 2222:2222
 
 volumes:
     conf:
