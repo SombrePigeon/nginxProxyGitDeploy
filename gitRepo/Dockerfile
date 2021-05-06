@@ -2,7 +2,13 @@ FROM alpine:latest
 
 MAINTAINER SombrePigeon "contact@alexismartial.fr"
 
-RUN apk update 
+#install packages
+
+RUN apk update --no-cache
+
+RUN apk add docker docker-compose
+
+RUN apk add git
 
 #ssh
 
@@ -12,21 +18,26 @@ WORKDIR /root
 
 RUN mkdir .ssh
 
-#git
+##secure ssh
+RUN sed -i '/ChallengeResponseAuthentication/c\ChallengeResponseAuthentication no' /etc/ssh/sshd_config
 
-RUN apk add git
+RUN sed -i '/PasswordAuthentication/c\PasswordAuthentication no' /etc/ssh/sshd_config
+
+RUN sed -i '/PubkeyAuthentication/c\PubkeyAuthentication yes' /etc/ssh/sshd_config
+
+RUN sed -i '/PermitRootLogin/c\PermitRootLogin yes' /etc/ssh/sshd_config
+
+RUN sed -i '/AuthorizedKeysFile/c\AuthorizedKeysFile      ~/.ssh/authorized_keys' /etc/ssh/sshd_config
+
+#git
 
 RUN git config --global init.defaultBranch main
 
 RUN mkdir repo
 
-WORKDIR repo
+#WORKDIR repo
 
 RUN git init --bare
-
-#docker
-RUN apk add docker docker-compose
-
 #RUN git init --shared=true
 
 #start ssh server
