@@ -38,16 +38,22 @@ services:
             - nginx-proxy
 
     git:
-        build: "./gitRepo"
-        ports:
-            - "2222:22"
+        image: ghcr.io/linuxserver/openssh-server
+        container_name: openssh-server
+        hostname: openssh-server #optional
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/Paris
+            - PUBLIC_KEY_FILE=/id_rsa.pub
+            - SUDO_ACCESS=false #optional
+            - PASSWORD_ACCESS=false #optional
+            - USER_PASSWORD=pass #optional
+            - USER_NAME=echo #optional
         volumes:
-            - ${PWD}/authorized_keys:/root/.ssh/authorized_keys:ro
-            - ${PWD}/ssh_host_rsa_key.pub:/etc/ssh/ssh_host_rsa_key.pub.share:rw
-            - ${PWD}/gitRepo/post-receive:/post-receive:ro
-            - /var/run/docker.sock:/var/run/docker.sock:rw
-        depends_on:
-            - nginx-proxy
+        - ${HOME}/.ssh/id_rsa.pub:/id_rsa.pub:ro
+        ports:
+        - 2222:2222
 
 volumes:
     conf:
