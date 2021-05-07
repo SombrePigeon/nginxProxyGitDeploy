@@ -12,11 +12,13 @@ RUN apk add git
 
 #git
 
-#RUN git config --global init.defaultBranch main
+RUN git config --global init.defaultBranch main
 
-#RUN mkdir repo
+RUN mkdir /repo
 
-#WORKDIR repo
+RUN chmod 777 /repo
+
+WORKDIR repo
 
 #RUN git init --bare
 
