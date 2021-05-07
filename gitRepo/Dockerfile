@@ -16,11 +16,11 @@ RUN git config --global init.defaultBranch main
 
 RUN mkdir /repo
 
-RUN chmod 777 /repo
-
 WORKDIR repo
 
 #RUN git init --bare
 
-#RUN git init --shared=true
+RUN git init --shared=true
 
+#fix for everything
+RUN chmod -R 777 /repo 

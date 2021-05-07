@@ -10,7 +10,7 @@ do
 	then
         echo "deploy activated"
 		# run "make update" on the deploying 
-		make update
+		#make
 	else
 		echo "Ref $ref received. Doing nothing: only the ${BRANCH} branch may be deployed on this server."
 	fi

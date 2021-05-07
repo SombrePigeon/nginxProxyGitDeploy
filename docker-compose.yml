@@ -50,6 +50,7 @@ services:
             - USER_NAME=git
         volumes:
             - ${HOME}/.ssh/id_rsa.pub:/id_rsa.pub:ro #atttttention à changer le path !
+            - ${PWD}/gitRepo/post-update:/repo/hooks/post-update:ro
         ports:
             - 2222:2222
 
