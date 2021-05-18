@@ -20,7 +20,9 @@ WORKDIR repo
 
 #RUN git init --bare
 
-RUN git init --shared=true
+RUN git init --bare --shared=true
+
+COPY post-receive /repo/hooks/
 
 #fix for everything
-RUN chmod -R 777 /repo 
+RUN chmod -R 777 /repo

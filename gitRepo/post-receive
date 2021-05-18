@@ -1,6 +1,4 @@
 #!/bin/bash
-TARGET="/home/webuser/deploy-folder"
-GIT_DIR="/home/webuser/www.git"
 BRANCH="main"
 
 while read oldrev newrev ref
@@ -8,9 +6,9 @@ do
 	# only checking out the $BRANCH
 	if [ "$ref" = "refs/heads/$BRANCH" ];
 	then
-        echo "deploy activated"
-		# run "make update" on the deploying 
-		#make
+        echo "deploy begin"
+		make
+		echo "deploy end"
 	else
 		echo "Ref $ref received. Doing nothing: only the ${BRANCH} branch may be deployed on this server."
 	fi
