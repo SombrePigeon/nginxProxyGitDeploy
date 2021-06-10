@@ -2,3 +2,5 @@
 authorized_keys
 
 ssh_host_rsa_key.pub
+
+init
