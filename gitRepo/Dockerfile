@@ -10,6 +10,8 @@ RUN apk add docker docker-compose
 
 RUN apk add git
 
+RUN apk add make
+
 #git
 
 RUN git config --global init.defaultBranch main
@@ -20,9 +22,15 @@ WORKDIR repo
 
 #RUN git init --bare
 
-RUN git init --bare --shared=true
+RUN git init --shared=true #--depth 1
 
-COPY post-receive /repo/hooks/
+COPY post-receive /repo/.git/hooks/
 
-#fix for everything
-RUN chmod -R 777 /repo
+RUN git config receive.denyCurrentBranch updateInstead #ignore
+
+#fix for everything :')
+RUN chmod -R 777 /repo 
+
+
+
+
