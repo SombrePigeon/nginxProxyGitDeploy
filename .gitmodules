@@ -1,0 +1,3 @@
+[submodule "myWebsite"]
+	path = myWebsite
+	url = https://github.com/SombrePigeon/myWebsite.git

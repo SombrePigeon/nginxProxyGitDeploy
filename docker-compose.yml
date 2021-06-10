@@ -37,28 +37,6 @@ services:
         depends_on:
             - nginx-proxy
 
-    git:
-        build: ./gitRepo
-        hostname: openssh-server #optional
-        #cap_add:
-            #- SYS_ADMIN
-        privileged: true
-        security_opt:
-            - seccomp:unconfined
-        environment:
-            - PUID=1000 # create a git user on host is probably a good idea
-            - PGID=1000
-            - TZ=Europe/Paris
-            - PUBLIC_KEY_FILE=/id_rsa.pub
-            - SUDO_ACCESS=true #optional
-            - PASSWORD_ACCESS=false 
-            - USER_NAME=git
-        volumes:
-            - ${HOME}/.ssh/id_rsa.pub:/id_rsa.pub:ro #atttttention à changer le path !
-            - /var/run/docker.sock:/var/run/docker.sock:rw
-        ports:
-            - 2222:2222
-
 volumes:
     conf:
     vhost:
