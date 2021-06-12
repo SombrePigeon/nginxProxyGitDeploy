@@ -1,4 +1,4 @@
-init: nginx-proxy
+init: nginx-proxy-up
 	git submodule update --init
 	git submodule foreach make init
 	ln -s post-receive .git/hooks/post-receive
