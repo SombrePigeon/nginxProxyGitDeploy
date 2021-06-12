@@ -6,11 +6,15 @@ init: nginx-proxy
 	git config receive.denyCurrentBranch updateInstead #ignore
 	touch init #unique initialisation
 
-nginx-proxy:
+nginx-proxy-up: 
 	docker-compose up -d --build
+	touch nginx-proxy-up
+nginx-proxy-down: 
+	docker-compose up -d --build
+	rm nginx-proxy-up
 
-up:
-	git submodule foreach make up
+update:
+	git submodule foreach make update
 
 down:
 	git submodule foreach make down
