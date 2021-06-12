@@ -13,7 +13,7 @@ nginx-proxy-down: down
 	docker-compose down
 	rm nginx-proxy-up
 
-update:
+update: init
 	git submodule foreach make update
 
 down:
