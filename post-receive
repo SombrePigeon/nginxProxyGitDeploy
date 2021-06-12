@@ -4,14 +4,14 @@ BRANCH="main"
 while read oldrev newrev ref
 do
 	# only checking out the $BRANCH
-	if [ "$ref" = "refs/heads/$BRANCH" ];
-	then
+	#if [ "$ref" = "refs/heads/$BRANCH" ];
+	#then
         echo "deploy begin"
 		git fetch
 		git submodule update
 		make update
 		echo "deploy end"
-	else
-		echo "Ref $ref received. Doing nothing: only the ${BRANCH} branch may be deployed on this server."
-	fi
+	#else
+	#	echo "Ref $ref received. Doing nothing: only the ${BRANCH} branch may be deployed on this server."
+	#fi
 done
