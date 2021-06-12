@@ -1,4 +1,3 @@
-
 init: nginx-proxy
 	git submodule update --init
 	git submodule foreach make init
@@ -9,7 +8,8 @@ init: nginx-proxy
 nginx-proxy-up: 
 	docker-compose up -d --build
 	touch nginx-proxy-up
-nginx-proxy-down: 
+
+nginx-proxy-down: down
 	docker-compose up -d --build
 	rm nginx-proxy-up
 
@@ -20,9 +20,3 @@ down:
 	git submodule foreach make down
 
 restart: down up
-
-
-
-
-all:
-	cd myWebsite && docker-compose down && docker-compose up -d 
