@@ -10,7 +10,7 @@ nginx-proxy-up:
 	touch nginx-proxy-up
 
 nginx-proxy-down: down
-	docker-compose up -d --build
+	docker-compose down
 	rm nginx-proxy-up
 
 update:
