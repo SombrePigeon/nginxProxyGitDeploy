@@ -13,9 +13,9 @@ nginx-proxy-down: down
 	rm nginx-proxy-up
 
 update: init
-	git submodule foreach make update
+	git --git-dir=.git submodule foreach make update
 
 down:
-	git submodule foreach make down
+	git --git-dir=.git submodule foreach make down
 
 restart: down up
