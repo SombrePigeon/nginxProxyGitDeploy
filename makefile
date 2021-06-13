@@ -1,6 +1,6 @@
 init: nginx-proxy-up
 	git submodule update --init
-	ln -s -f post-receive .git/hooks/post-receive
+	cd .git/hooks/ && ln -s -f ../../post-receive post-receive
 	git config receive.denyCurrentBranch updateInstead #ignore
 	touch init #unique initialisation
 
