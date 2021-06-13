@@ -7,9 +7,10 @@ do
 	#if [ "$ref" = "refs/heads/$BRANCH" ];
 	#then
         echo "deploy begin"
+		cd ..
 		git fetch
 		git submodule update
-		cd .. && make update 
+		make update 
 		echo "deploy end"
 	#else
 	#	echo "Ref $ref received. Doing nothing: only the ${BRANCH} branch may be deployed on this server."
