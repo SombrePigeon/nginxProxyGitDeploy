@@ -10,7 +10,7 @@ nginx-proxy-up:
 
 nginx-proxy-down: down
 	docker-compose down
-	rm nginx-proxy-up
+	rm -f nginx-proxy-up
 
 update: init
 	git --git-dir=.git submodule update

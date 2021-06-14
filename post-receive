@@ -8,7 +8,7 @@ do
 	#then
         echo "deploy begin"
 		git fetch
-		git submodule update #not working it seam
+		git submodule update #not working it seams
 		cd .. && make update 
 		echo "deploy end"
 	#else
