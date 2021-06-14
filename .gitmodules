@@ -1,3 +1,6 @@
 [submodule "myWebsite"]
 	path = myWebsite
 	url = https://github.com/SombrePigeon/myWebsite.git
+[submodule "torrent"]
+	path = torrent
+	url = https://github.com/SombrePigeon/torrent.git
