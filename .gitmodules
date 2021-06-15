@@ -10,3 +10,6 @@
 [submodule "video-streaming"]
 	path = video-streaming
 	url = https://github.com/SombrePigeon/video-streaming.git
+[submodule "cloud"]
+	path = cloud
+	url = https://github.com/SombrePigeon/cloud.git
