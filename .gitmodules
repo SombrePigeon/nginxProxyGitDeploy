@@ -7,3 +7,6 @@
 [submodule "minecraft-server"]
 	path = minecraft-server
 	url = https://github.com/SombrePigeon/minecraft-server.git
+[submodule "video-streaming"]
+	path = video-streaming
+	url = https://github.com/SombrePigeon/video-streaming.git
