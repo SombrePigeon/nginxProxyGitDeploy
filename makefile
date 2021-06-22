@@ -4,13 +4,15 @@ init:
 	git config receive.denyCurrentBranch updateInstead #ignore
 	touch init #unique initialisation
 
-nginx-proxy-up: 
+nginx-proxy-up: docker-compose.yml
+	$(MAKE) nginx-proxy-down
 	docker-compose up -d --build
 	touch nginx-proxy-up
 
 nginx-proxy-down: down
-	docker-compose down
 	rm -f nginx-proxy-up
+	docker-compose down
+	
 
 update: init nginx-proxy-up
 	git --git-dir=.git submodule update --init
@@ -20,3 +22,5 @@ down:
 	git --git-dir=.git submodule foreach $(MAKE) down
 
 restart: down up
+
+.PHONY:restart down
