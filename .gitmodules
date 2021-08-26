@@ -17,6 +17,3 @@
 [submodule "website_info"]
 	path = website_info
 	url = https://github.com/SombrePigeon/website_info.git
-[submodule "ygg-proxy"]
-	path = ygg-proxy
-	url = https://github.com/SombrePigeon/ygg-proxy.git
