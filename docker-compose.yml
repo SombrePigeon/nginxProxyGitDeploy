@@ -4,7 +4,7 @@ services:
     nginx-proxy:
         build: .
         ports:
-            - 8080:80
+            - 80:80
             - 443:443
         networks:
             - net-proxy
@@ -15,9 +15,6 @@ services:
             - dhparam:/etc/nginx/dhparam
             - certs:/etc/nginx/certs:ro
             - /var/run/docker.sock:/tmp/docker.sock:ro
-        environment:
-            - VIRTUAL_PROTO=https
-            #ENABLE_IPV6: true
         labels:
             - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy"
 
@@ -36,7 +33,20 @@ services:
             - net-proxy
         depends_on:
             - nginx-proxy
-
+        # self signed
+        #  omgwtfssl:
+        #    image: paulczar/omgwtfssl
+        #    restart: "no"
+        #    volumes:
+        #      - certs:/certs
+        #    environment:
+        #      - SSL_SUBJECT=servhostname.local
+        #      - CA_SUBJECT=my@example.com
+        #      - SSL_KEY=/certs/servhostname.local.key
+        #      - SSL_CSR=/certs/servhostname.local.csr
+        #      - SSL_CERT=/certs/servhostname.local.crt
+        #    networks:
+        #      - proxy-tier
 volumes:
     conf:
     vhost:
