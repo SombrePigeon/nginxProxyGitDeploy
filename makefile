@@ -1,8 +1,8 @@
 ifeq ($(WEBSITES_ENV), prod)
- $(info prod $(WEBSITES_ENV) detected)
+ $(info $(WEBSITES_ENV) environment detected)
  COMPOSE_FILE=docker-compose.yml
 else ifeq ($(WEBSITES_ENV), dev)
- $(info prod $(WEBSITES_ENV) detected)
+ $(info $(WEBSITES_ENV) environment detected)
  COMPOSE_FILE=docker-compose-dev.yml
 else
  $(error : WEBSITES_ENV is not defined to "dev" or "prod";)
