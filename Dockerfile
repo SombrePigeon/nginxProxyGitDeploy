@@ -3,13 +3,13 @@ FROM jwilder/nginx-proxy:alpine as parent
 
 #nextcloudConf----------
 #nextcloud configuration upload
-FROM parent as nextcloudConf
+FROM parent as nextcloudconf
 COPY cloud/uploadsize.conf /etc/nginx/conf.d/uploadsize.conf
 
 
 #BASE----------
 #interface pour l'image de base
-FROM nextcloudConf as base
+FROM nextcloudconf as base
 EXPOSE 80
 
 #DEV----------

@@ -8,30 +8,37 @@ else
  $(error : WEBSITES_ENV is not defined to "dev" or "prod";)
 endif
 
+update: update-check
+	$(MAKE) .update
 
-init:
+init: 
+	$(MAKE) .init
+
+.update: $(COMPOSE_FILE) Dockerfile update-check init
+	$(MAKE) down
+	$(ENV) docker-compose -f $(COMPOSE_FILE) up  -d --build
+	touch update
+
+down: services-down
+	rm -f update
+	docker-compose -f $(COMPOSE_FILE) down
+	
+services-update: update
+	git --git-dir=.git submodule update --init
+	git --git-dir=.git submodule foreach $(MAKE) update
+
+services-down:
+	git --git-dir=.git submodule foreach $(MAKE) down
+
+.init:
 	git submodule update --init
 	cd .git/hooks/ && ln -s -f ../../post-receive post-receive
 	git config receive.denyCurrentBranch updateInstead #ignore
 	touch init #unique initialisation
 
-nginx-proxy-up: $(COMPOSE_FILE) dockerfile
-	$(MAKE) nginx-proxy-down
-	$(ENV) docker-compose -f $(COMPOSE_FILE) up  -d --build
-	touch nginx-proxy-up
 
-nginx-proxy-down: down
-	rm -f nginx-proxy-up
-	docker-compose -f $(COMPOSE_FILE) down
-	
+update-check:
+	docker-compose ps -q | grep -q "" || rm -f update
 
-update: init nginx-proxy
-	git --git-dir=.git submodule update --init
-	git --git-dir=.git submodule foreach $(MAKE) update
 
-down:
-	git --git-dir=.git submodule foreach $(MAKE) down
-
-restart: down up
-
-.PHONY:restart down
+.PHONY:restart services-down update-check update init
