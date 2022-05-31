@@ -14,16 +14,16 @@ update: update-check
 init: 
 	$(MAKE) .init
 
-.update: $(COMPOSE_FILE) Dockerfile update-check init
+.update: $(COMPOSE_FILE) Dockerfile update-check .init
 	$(MAKE) down
 	$(ENV) docker-compose -f $(COMPOSE_FILE) up  -d --build
 	touch .update
 
 down: services-down
-	rm -f update
+	rm -f .update
 	docker-compose -f $(COMPOSE_FILE) down
 	
-services-update: update
+services-update: .update
 	git --git-dir=.git submodule update --init
 	git --git-dir=.git submodule foreach $(MAKE) update
 
@@ -38,7 +38,7 @@ services-down:
 
 
 update-check:
-	docker-compose ps -q | grep -q "" || rm -f update
+	docker-compose ps -q | grep -q "" || rm -f .update
 
 
 .PHONY:restart services-down update-check update init
