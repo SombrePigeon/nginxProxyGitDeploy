@@ -14,3 +14,9 @@
 [submodule "website_info"]
 	path = website_info
 	url = https://github.com/SombrePigeon/website_info.git
+[submodule "trainingWebComponents"]
+	path = trainingWebComponents
+	url = https://github.com/SombrePigeon/trainingWebComponents.git
+[submodule "webIde"]
+	path = webIde
+	url = git@github.com:SombrePigeon/webIde.git
