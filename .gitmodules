@@ -20,3 +20,9 @@
 [submodule "alt-routing-demo"]
 	path = alt-routing-demo
 	url = https://github.com/SombrePigeon/alt-routing-demo.git
+[submodule "releaseRepository"]
+	path = releaseRepository
+	url = https://github.com/SombrePigeon/releaseRepository
+[submodule "alt-routing"]
+	path = alt-routing
+	url = https://github.com/SombrePigeon/alt-routing.git

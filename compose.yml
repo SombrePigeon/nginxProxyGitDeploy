@@ -1,0 +1,66 @@
+include:
+    - path:
+        - alt-routing-demo/compose.yml
+    - path:
+        - alt-routing/compose.yml
+    - path:
+        - releaseRepository/compose.yml
+
+services:
+    nginx-proxy:
+        image: nginxproxy/nginx-proxy
+        profiles: [prod]
+        ports:
+            - 80:80
+            - 443:443
+        environment:
+            ENABLE_IPV6: true
+        networks:
+            - proxy
+            - outside
+        volumes:
+            - html:/usr/share/nginx/html
+            - certs:/etc/nginx/certs
+            - /var/run/docker.sock:/tmp/docker.sock:ro 
+    acme:
+        image: nginxproxy/acme-companion
+        profiles: [prod]
+        volumes:
+            - certs:/etc/nginx/certs
+            - acme:/etc/acme.sh
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+        environment:
+            DEFAULT_EMAIL: contact@sombrepigeon.fr
+        depends_on:
+            nginx-proxy:
+                condition: service_started
+        networks:
+            - proxy
+            - www
+
+    nginx-proxy-local:
+        image: nginxproxy/nginx-proxy
+        profiles: [dev]
+        ports:
+            - 80:80
+        environment:
+            ENABLE_IPV6: true
+        networks:
+            - proxy
+            - www
+        volumes:
+            - html:/usr/share/nginx/html
+            - /var/run/docker.sock:/tmp/docker.sock:ro
+                
+volumes:
+    html:
+    certs:
+    acme:
+
+
+networks:
+    proxy:
+        enable_ipv6: true
+        external: false
+    www:
+        enable_ipv6: true
