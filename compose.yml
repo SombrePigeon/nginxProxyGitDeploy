@@ -17,7 +17,7 @@ services:
             ENABLE_IPV6: true
         networks:
             - proxy
-            - outside
+            - www
         volumes:
             - html:/usr/share/nginx/html
             - certs:/etc/nginx/certs
