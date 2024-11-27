@@ -26,3 +26,4 @@
 [submodule "alt-routing"]
 	path = alt-routing
 	url = https://github.com/SombrePigeon/alt-routing.git
+	branch = 0.1
