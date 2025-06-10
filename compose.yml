@@ -1,10 +1,8 @@
 include:
     - path:
-        - releaseRepository/compose.yml
+        - alt-routing/compose.yml
     - path:
         - alt-routing-demo/compose.yml
-    - path:
-        - alt-routing/compose.yml
 
 services:
     nginx-proxy:
