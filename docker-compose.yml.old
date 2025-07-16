@@ -28,7 +28,7 @@ services:
             - certs:/etc/nginx/certs:rw
             - /var/run/docker.sock:/var/run/docker.sock:ro
         environment: 
-            DEFAULT_EMAIL: "contact@alexismartial.fr"
+            DEFAULT_EMAIL: contact@alexismartial.fr
         networks:
             - net-proxy
         depends_on:
