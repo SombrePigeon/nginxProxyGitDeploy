@@ -1,0 +1,16 @@
+services:
+    alt-routing:
+        profiles: [prod]
+        build:
+            dockerfile_inline: FROM sombrepigeon/releases:2.0-onbuild
+            args:
+                EXT: js
+                SOURCE: "https://github.com/SombrePigeon/alt-routing"
+        environment:
+            VIRTUAL_HOST: "alt-routing.releases.sombrepigeon.fr"
+            LETSENCRYPT_HOST: "alt-routing.releases.sombrepigeon.fr"
+        networks:
+            proxy:
+                aliases: [alt-routing.releases.sombrepigeon.fr]
+
+
