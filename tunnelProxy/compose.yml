@@ -1,0 +1,72 @@
+services:
+    tunnel-proxy-local:
+        build:
+            context: .
+            dockerfile: Containerfile
+        profiles: 
+            - proxytest
+        ports:
+            - 1080:1080/tcp   # port serveur exposé sur l'hôte
+            - 1080:1080/udp
+        networks:
+            tunnel_proxy:
+
+    nginx-proxy-local:
+        image: nginxproxy/nginx-proxy
+        profiles: 
+            - proxytest
+        labels: 
+            - com.github.nginx-proxy.nginx
+        ports:
+            - 80:80
+            - 443:443
+        environment:
+            ENABLE_IPV6: true
+        networks:
+            tunnel_proxy:
+                aliases: #shlag dns
+                    - sombrepigeon.fr
+                    - alt-routing-demo.sombrepigeon.fr
+                    - spellbook.alt-routing-demo.sombrepigeon.fr
+                    - alt-routing.dev.releases.sombrepigeon.fr
+            proxy:
+            www:
+        volumes:
+            - html:/usr/share/nginx/html
+            - certs:/etc/nginx/certs
+            - /var/run/docker.sock:/tmp/docker.sock:ro
+
+    acme-dev:
+        image: nginxproxy/acme-companion
+        profiles:
+            - proxy
+        depends_on:
+            - nginx-proxy-local
+            - step-ca
+        volumes:
+            - html:/usr/share/nginx/html
+            - certs:/etc/nginx/certs
+            - acme:/etc/acme.sh
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+        environment:
+            DEFAULT_EMAIL: contact@sombrepigeon.fr
+            ACME_CA_URI: "https://step-ca:4433/acme/acme/directory"
+            DEBUG: 1
+        networks:
+            proxy:
+
+    step-ca:
+        image: smallstep/step-ca:latest
+        profiles: 
+            - proxy
+        ports:
+            - "9000:9000"  # web UI et ACME
+            - "4433:4433"  # ACME endpoint
+        environment:
+            DOCKER_STEPCA_INIT_NAME: SombrePigeonTesting
+            DOCKER_STEPCA_INIT_DNS_NAMES: acme-dev
+        networks:
+            proxy:
+      
+volumes:
+    pebble:

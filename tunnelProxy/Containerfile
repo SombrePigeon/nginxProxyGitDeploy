@@ -1,0 +1,6 @@
+FROM wernight/dante
+EXPOSE 1080/udp
+EXPOSE 1080/tcp
+RUN sed -i 's/external.rotation: route/external.rotation: none/' /etc/sockd.conf
+
+#COPY ./sockd.conf /etc/sockd.conf

@@ -1,0 +1,6 @@
+sombrepigeon.fr:53 {
+    hosts {
+        172.20.0.3 *.sombrepigeon.fr
+        fallthrough
+    }
+}

@@ -4,3 +4,9 @@ Run a git server with nginx-proxy to automaticaly deploy compose project when yo
 git config --global init.defaultBranch main
 git clone -b develop --shared --depth 1 https://github.com/SombrePigeon/nginxProxyGitDeploy.git 
 git submodule update --init --recursive
+
+
+chrome://flags/#unsafely-treat-insecure-origin-as-secure
+dom.securecontext.allowlist
+
+devtools.serviceWorkers.testing.enabled

@@ -1,8 +1,10 @@
 include:
     - path:
-        - alt-routing/compose.yml
-    - path:
         - alt-routing-demo/compose.yml
+    - path:
+        - services/compose.yml
+    - path:
+        - tunnelProxy/compose.yml
 
 services:
     nginx-proxy:
@@ -16,8 +18,8 @@ services:
         environment:
             ENABLE_IPV6: true
         networks:
-            - proxy
-            - www
+            proxy:
+            www:
         volumes:
             - html:/usr/share/nginx/html
             - certs:/etc/nginx/certs
@@ -39,20 +41,55 @@ services:
             - proxy
             - www
 
-    nginx-proxy-local:
-        image: nginxproxy/nginx-proxy
-        profiles: [dev]
-        ports:
-            - 80:80
+    alt-routing-demo.firefox:
+        image: jlesage/firefox
+        profiles: [firefox]
         environment:
-            ENABLE_IPV6: true
+            VIRTUAL_HOST: firefox.alt-routing-demo.localhost
+            VIRTUAL_PORT: 5800
+            LANG: fr_FR.UTF-8
+            DARK_MODE: 1
+            FF_OPEN_URL: alt-routing-demo.sombrepigeon.fr
+        ports:
+            - 5800:5800
+        configs:
+            -   source: alt-routing-demo.firefox.userPref
+                target: /config/profile/user.js
         networks:
-            - proxy
-            - www
-        volumes:
-            - html:/usr/share/nginx/html
-            - /var/run/docker.sock:/tmp/docker.sock:ro
-                
+            proxy:
+            www:
+    alt-routing-demo.chromium:
+        image: jlesage/chromium
+        profiles: [chromium]
+        environment:
+            VIRTUAL_HOST: chromium.alt-routing-demo.localhost
+            VIRTUAL_PORT: 5801
+            LANG: fr_FR.UTF-8
+            DARK_MODE: 1
+            CHROMIUM_APP_URL: alt-routing-demo.sombrepigeon.fr
+        ports:
+            - 5801:5800
+        networks:
+            proxy:
+            www:
+
+
+configs:
+    alt-routing-demo.firefox.userPref:
+        content: user_pref("dom.securecontext.allowlist", 
+                "alt-routing-demo.sombrepigeon.fr,
+                alt-routing.dev.releases.sombrepigeon.fr,
+                spellbook.alt-routing-demo.sombrepigeon.fr");
+            user_pref("devtools.serviceWorkers.testing.enabled", true);
+            user_pref("devtools.toolbox.host", "right");
+            user_pref("devtools.toolbox.previousHost", "right");
+            user_pref("dom.serviceWorkers.testing.enabled", true);
+            user_pref("dom.viewTransitions.enabled", true);
+            user_pref("layout.css.module-scripts.enabled", true);
+            user_pref("devtools.cache.disabled", true);
+            user_pref("dom.navigation.webidl.enabled", true);
+
+        
 volumes:
     html:
     certs:
@@ -61,7 +98,7 @@ volumes:
 
 networks:
     proxy:
-        enable_ipv6: true
-        external: false
+        internal: true
     www:
-        enable_ipv6: true
+    tunnel_proxy:
+        #internal: true
