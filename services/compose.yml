@@ -4,8 +4,9 @@ services:
         build:
             dockerfile_inline: FROM sombrepigeon/releases:2.0-onbuild
             args:
-                EXT: js
+                EXT: js|json
                 SOURCE: "https://github.com/SombrePigeon/alt-routing"
+            network: host
         environment:
             VIRTUAL_HOST: "alt-routing.releases.sombrepigeon.fr"
             LETSENCRYPT_HOST: "alt-routing.releases.sombrepigeon.fr"
